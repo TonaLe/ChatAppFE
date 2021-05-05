@@ -1,0 +1,51 @@
+/* .login-wrapper {
+    width: 50%;
+    float: right;
+} */
+.login-form {
+    align-items: flex-end;
+    justify-content: flex-end;
+    margin-right: 20px;
+}
+
+.login-form > .form-group {
+    width: 235px;
+    margin: 0 15px;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    background: #12c2e9;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #f64f59, #c471ed, #12c2e9);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #f64f59, #c471ed, #12c2e9);
+}
+
+.right {
+    width: 60%;
+    margin-right: 20px;
+}
+
+.register-container {
+    width: 575px;
+    padding: 50px 100px;
+    background: white;
+    border-radius: 20px;
+}
+
+.register-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 20px;
+}
+
+.left {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    margin-left: 300px;
+}
