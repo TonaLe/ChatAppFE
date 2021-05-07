@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
 import {Nav, Navbar, NavDropdown} from 'react-bootstrap';
-import { Redirect } from 'react-router';
+import { Redirect, useHistory } from 'react-router';
 import './headerBar.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const HeaderBar = () => {
   const [isLogout, setIsLogOut] = useState(false);
+  const history = useHistory()
 
+  const handleProfile = () => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo')) && JSON.parse(localStorage.getItem('userInfo'))
+    console.log("🚀 ~ file: index.js ~ line 14 ~ handleProfile ~ username", userInfo.username)
+    userInfo.username && history.push(`/profile/${userInfo.username}`)
+  };
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.clear();
     setIsLogOut(true);
   };
   return isLogout ? (
@@ -26,6 +34,7 @@ const HeaderBar = () => {
           id="basic-nav-dropdown"
           className="align-items-end"
         >
+          <NavDropdown.Item onClick={handleProfile}><FontAwesomeIcon icon={faUser} /> Your profile</NavDropdown.Item>
           <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
         </NavDropdown>
         {/* <Form inline>

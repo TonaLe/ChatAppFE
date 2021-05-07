@@ -7,7 +7,7 @@ import axios from 'axios';
 
 const Profile = () => {
   return (
-    <div class="page-content page-container" id="page-content">
+    <div class="page-content page-container wrapper" id="page-content">
       <div class="padding">
         <div class="row container d-flex justify-content-center">
           <div class="col-xl-6 col-md-12">
