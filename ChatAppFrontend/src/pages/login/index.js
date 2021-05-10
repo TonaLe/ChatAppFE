@@ -9,14 +9,11 @@ const Login = () => {
     fullName: '',
     username: '',
     password: '',
-    DOB: '',
+    dateOfBirth: '',
     gender: 'male',
     city: '',
   });
-  console.log(
-    '🚀 ~ file: index.js ~ line 9 ~ Login ~ formRegister',
-    formRegister
-  );
+  console.log("🚀 ~ file: index.js ~ line 9 ~ Login ~ formRegister", formRegister)
 
   const [formLogin, setFormLogin] = useState({
     username: '',
@@ -31,7 +28,6 @@ const Login = () => {
       .then((res) => {
         if (!isEmpty(res?.data)) {
           const {token, ...restData} = res?.data;
-          console.log('🚀 ~ file: index.js ~ line 29 ~ .then ~ token', token);
           localStorage.setItem('token', token);
           localStorage.setItem('userInfo', JSON.stringify(restData));
         }
@@ -51,12 +47,11 @@ const Login = () => {
       city: formRegister.city
     }
 
-    if (formRegister.dateOfBirth) registerProps.DOB = formRegister.DOB
+    if (formRegister.dateOfBirth) registerProps.dateOfBirth = formRegister.dateOfBirth
 
     axios
       .post(`http://localhost:5000/api/account/register`, registerProps)
       .then((res) => {
-        console.log("🚀 ~ file: index.js ~ line 56 ~ .then ~ res", res)
         if (res?.status === 201) {
           history.push('/login');
         }
@@ -130,7 +125,7 @@ const Login = () => {
             </button>
           </form>
         </div>
-        <div className="register-wrapper mt-5">
+        <div className="register-wrapper mt-5 mb-5">
           <div className="register-container">
             <form onSubmit={handleSubmitRegister} className="register-form">
               <h3>Sign up</h3>
@@ -185,8 +180,8 @@ const Login = () => {
                 <input
                   type="date"
                   className="form-control"
-                  name="DOB"
-                  value={formRegister.DOB}
+                  name="dateOfBirth"
+                  value={formRegister.dateOfBirth}
                   onChange={handleChangeRegister}
                 />
               </div>

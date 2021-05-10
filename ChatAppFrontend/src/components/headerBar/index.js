@@ -9,10 +9,9 @@ const HeaderBar = () => {
   const [isLogout, setIsLogOut] = useState(false);
   const history = useHistory()
 
+  const userInfo = JSON.parse(localStorage.getItem('userInfo')) && JSON.parse(localStorage.getItem('userInfo'))
   const handleProfile = () => {
-    const userInfo = JSON.parse(localStorage.getItem('userInfo')) && JSON.parse(localStorage.getItem('userInfo'))
-    console.log("🚀 ~ file: index.js ~ line 14 ~ handleProfile ~ username", userInfo.username)
-    userInfo.username && history.push(`/profile/${userInfo.username}`)
+    userInfo?.username && history.push(`/profile/${userInfo?.username}`)
   };
   const handleLogout = () => {
     localStorage.clear();
@@ -30,7 +29,7 @@ const HeaderBar = () => {
           <Nav.Link href="#link">Room</Nav.Link>
         </Nav>
         <NavDropdown
-          title="Dropdown"
+          title={userInfo?.username || 'User Information'}
           id="basic-nav-dropdown"
           className="align-items-end"
         >
