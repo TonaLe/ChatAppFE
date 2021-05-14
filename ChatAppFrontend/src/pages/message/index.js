@@ -11,24 +11,13 @@ const Message = () => {
   const information = localStorage.getItem("userInfo");
   const token = localStorage.getItem("token");
   const [userInfo, setUserInfo] = useState(null);
-  const [userList, setUserList] = useState([]);
   const [currUser, setCurrUser] = useState(null);
   const [currMessages, setCurrMessages] = useState([]);
   const refInput = useRef();
 
-  const onFetchAllUsers = async (information, token) => {
-    let users = await ApiGet(
-      `messages?Username=${information?.username}&Container=Inbox`,
-      `${token}`
-    );
-    setUserList([
-      ...new Map(users.map((item) => [item["senderId"], item])).values(),
-    ]);
-  };
-
   const onGetUserToChat = async (username, photoUrl) => {
     setCurrUser({ username, photoUrl });
-    const userChatMessages = await ApiGet(`messages/thread/${username}`, token);
+    const userChatMessages = await ApiGet(`messages/thread/${username}`);
     setCurrMessages(userChatMessages);
     refInput.current.value = "";
   };
@@ -44,21 +33,17 @@ const Message = () => {
   };
   useEffect(() => {
     setUserInfo(JSON.parse(information));
-    onFetchAllUsers(JSON.parse(information), token);
-  }, [information, token]);
+  }, [information]);
   return (
     <div>
       <HeaderBar />
       <div id="frame">
-        {userList.length > 0 ? (
+        {userInfo ? (
           <LeftSideBar
             userInfo={userInfo}
-            userList={userList}
             onGetUserToChat={onGetUserToChat}
           />
-        ) : (
-          <div>...loading</div>
-        )}
+        ) : null}
         {currUser !== null ? (
           <div className="content">
             <div className="contact-profile">
@@ -70,7 +55,10 @@ const Message = () => {
                 <i className="fa fa-instagram" aria-hidden="true"></i>
               </div>
             </div>
-            <div className="messages">
+            <div
+              className="messages start-message"
+              style={{ minWidth: "100%" }}
+            >
               <ul>
                 {currMessages.length > 0 ? (
                   currMessages.map((m, i) => (
@@ -87,7 +75,7 @@ const Message = () => {
                     </li>
                   ))
                 ) : (
-                  <div>Let's start a conversation with {currUser.username}</div>
+                  <div>...Loading</div>
                 )}
               </ul>
             </div>
@@ -105,7 +93,7 @@ const Message = () => {
             </div>
           </div>
         ) : (
-          <div>Pick a friend to chat</div>
+          <div className="start-message start-up">Pick a friend to chat</div>
         )}
       </div>
     </div>
@@ -113,4 +101,3 @@ const Message = () => {
 };
 
 export default Message;
-
