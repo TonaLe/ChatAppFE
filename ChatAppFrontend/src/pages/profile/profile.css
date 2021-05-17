@@ -15,7 +15,6 @@ body {
     -webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
     box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
     border: none;
-    margin-bottom: 30px
 }
 
 .m-r-0 {
@@ -123,4 +122,39 @@ h6 {
 
 .user-card-full .social-link li {
     display: inline-block
+}
+
+.wrapper {
+    background: #12c2e9;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #f64f59, #c471ed, #12c2e9);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #f64f59, #c471ed, #12c2e9);
+    display: block;
+}
+
+.img-radius {
+    border-radius: 50%
+}
+
+.padding {
+    height: calc(100vh - 56px);
+}
+
+.friendRequest {
+    background: white;
+    border-radius: 5px;
+}
+
+.friend {
+    background: linear-gradient(to right, #ee5a6f, #f29263);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.friendWrapper {
+    overflow: auto;
+    height: calc(100vh - 200px);
+    padding: 10px;
+    margin: 0 -15px;
 }

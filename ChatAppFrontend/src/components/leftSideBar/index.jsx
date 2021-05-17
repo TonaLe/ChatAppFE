@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useState } from "react";
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
 import Search from "../Search";
 import { Nav } from "react-bootstrap";
