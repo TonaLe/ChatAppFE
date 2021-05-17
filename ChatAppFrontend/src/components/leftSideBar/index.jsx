@@ -1,10 +1,52 @@
 import React, { memo } from "react";
 import { Link } from "react-router-dom";
-const LeftSideBar = memo(({ userInfo, userList, onGetUserToChat }) => {
-  console.log("LeftSideBar rendered", userList);
+import Search from "../Search";
+import { Nav } from "react-bootstrap";
+import ContactList from "../ContactList";
+import ApiGet from "../../Utils/ApiGet";
+
+const LeftSideBar = memo(({ userInfo, onGetUserToChat }) => {
+  console.log("LeftSideBar rendered");
+  const [isSearch, setIsSearch] = useState(false);
+  const [userList, setUserList] = useState([]);
+  const onChangeIsSearch = useCallback(() => {
+    setIsSearch(!isSearch);
+  }, [isSearch]);
   const onChose = (username, photoUrl) => {
     onGetUserToChat(username, photoUrl);
+    setIsSearch(false);
   };
+  const handleSelect = (e) => {
+    e === "Outbox" ? onFetchOutBoxUsers() : onFetchAllUsers();
+  };
+  const onFetchAllUsers = async () => {
+    let users = await ApiGet(
+      `messages?Username=${userInfo?.username}&Container=Inbox`
+    );
+    var UserInBoxs = users.map((u) => {
+      return { ...u, type: "Inbox" };
+    });
+    setUserList([
+      ...new Map(UserInBoxs.map((item) => [item["senderId"], item])).values(),
+    ]);
+  };
+
+  const onFetchOutBoxUsers = async () => {
+    let users = await ApiGet(
+      `messages?Username=${userInfo?.username}&Container=Outbox`
+    );
+    var UserOutBoxs = users.map((u) => {
+      return { ...u, type: "Outbox" };
+    });
+    setUserList([
+      ...new Map(
+        UserOutBoxs.map((item) => [item["recipientId"], item])
+      ).values(),
+    ]);
+  };
+  useEffect(() => {
+    onFetchAllUsers();
+  }, [userInfo]);
   return (
     <div id="sidepanel">
       <div id="profile">
@@ -27,41 +69,15 @@ const LeftSideBar = memo(({ userInfo, userList, onGetUserToChat }) => {
             className="fa fa-chevron-down expand-button"
             aria-hidden="true"
           ></i>
-          <div id="status-options">
-            <ul>
-              <li id="status-online" className="active">
-                <span className="status-circle"></span> <p>Online</p>
-              </li>
-              <li id="status-away">
-                <span className="status-circle"></span> <p>Away</p>
-              </li>
-              <li id="status-busy">
-                <span className="status-circle"></span> <p>Busy</p>
-              </li>
-              <li id="status-offline">
-                <span className="status-circle"></span> <p>Offline</p>
-              </li>
-            </ul>
-          </div>
-          <div id="expanded">
-            <label htmlFor="twitter">
-              <i className="fa fa-facebook fa-fw" aria-hidden="true"></i>
-            </label>
-            <input name="twitter" type="text" defaultValue="mikeross" />
-            <label htmlFor="twitter">
-              <i className="fa fa-twitter fa-fw" aria-hidden="true"></i>
-            </label>
-            <input name="twitter" type="text" defaultValue="ross81" />
-            <label htmlFor="twitter">
-              <i className="fa fa-instagram fa-fw" aria-hidden="true"></i>
-            </label>
-            <input name="twitter" type="text" defaultValue="mike.ross" />
-          </div>
         </div>
       </div>
-      <div id="search">
+      <div id="search" onClick={onChangeIsSearch}>
         <label>
-          <i className="fas fa-search" aria-hidden="true"></i>
+          <i
+            className={`fas fa-${isSearch ? "times" : "search"}`}
+            aria-hidden="true"
+            onClick={isSearch ? () => setIsSearch(false) : null}
+          ></i>
         </label>
         <input
           type="text"
@@ -69,27 +85,22 @@ const LeftSideBar = memo(({ userInfo, userList, onGetUserToChat }) => {
           placeholder="Search contacts..."
         />
       </div>
-      <div id="contacts">
-        <ul style={{ marginTop: "1rem" }}>
-          {userList.map((user) => (
-            <li className="contact" key={user.id}>
-              <div className="wrap">
-                <span className="contact-status online"></span>
-                <img
-                  src={user.senderPhotoUrl}
-                  alt=""
-                  onClick={() =>
-                    onChose(user.senderUsername, user.senderPhotoUrl)
-                  }
-                />
-                <div className="meta">
-                  <p className="name">{user.senderUsername}</p>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {isSearch ? <Search onChose={onChose} /> : null}
+      <Nav
+        variant="pills"
+        onSelect={handleSelect}
+        defaultActiveKey="Inbox"
+        justify
+      >
+        <Nav.Item>
+          <Nav.Link eventKey="Inbox">Inbox</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="Outbox">Outbox</Nav.Link>
+        </Nav.Item>
+      </Nav>
+      {/* Contacts */}
+      <ContactList userList={userList} isSearch={isSearch} onChose={onChose} />
       <div id="bottom-bar">
         <button id="addcontact">
           <i className="fa fa-user-plus fa-fw" aria-hidden="true"></i>{" "}

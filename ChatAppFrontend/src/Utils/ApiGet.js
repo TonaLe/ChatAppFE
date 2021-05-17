@@ -1,6 +1,7 @@
 import axios from "axios";
 import { baseUrl } from "../Constants/BaseUrl";
-const ApiGet = (endPoint, token) => {
+const ApiGet = (endPoint) => {
+  const token = localStorage.getItem("token");
   const AuthStr = "Bearer ".concat(token);
   return axios({
     method: "GET",
@@ -19,3 +20,4 @@ const ApiGet = (endPoint, token) => {
 };
 
 export default ApiGet;
+
