@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
 const LeftSideBar = memo(({ userInfo, userList, onGetUserToChat }) => {
   console.log("LeftSideBar rendered", userList);
