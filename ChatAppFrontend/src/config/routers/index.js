@@ -26,4 +26,10 @@ export const routersAuth = [
     path: '/home',
     isProtected: false,
   },
+  {
+    title: 'Profile Page',
+    component: 'profile',
+    path: '/profile/:username',
+    isProtected: false,
+  },
 ];

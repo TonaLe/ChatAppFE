@@ -6,11 +6,14 @@ import './login.css';
 
 const Login = () => {
   const [formRegister, setFormRegister] = useState({
-    firstname: '',
-    lastname: '',
+    fullName: '',
     username: '',
     password: '',
+    dateOfBirth: '',
+    gender: 'male',
+    city: '',
   });
+  console.log("🚀 ~ file: index.js ~ line 9 ~ Login ~ formRegister", formRegister)
 
   const [formLogin, setFormLogin] = useState({
     username: '',
@@ -25,7 +28,6 @@ const Login = () => {
       .then((res) => {
         if (!isEmpty(res?.data)) {
           const {token, ...restData} = res?.data;
-          console.log('🚀 ~ file: index.js ~ line 29 ~ .then ~ token', token);
           localStorage.setItem('token', token);
           localStorage.setItem('userInfo', JSON.stringify(restData));
         }
@@ -37,8 +39,18 @@ const Login = () => {
   };
 
   const handleSubmitRegister = (event) => {
+    const registerProps = {
+      username: formRegister.username,
+      password: formRegister.password,
+      knownas: formRegister.fullName,
+      gender: formRegister.gender,
+      city: formRegister.city
+    }
+
+    if (formRegister.dateOfBirth) registerProps.dateOfBirth = formRegister.dateOfBirth
+
     axios
-      .post(`http://localhost:5000/api/account/register`, formRegister)
+      .post(`http://localhost:5000/api/account/register`, registerProps)
       .then((res) => {
         if (res?.status === 201) {
           history.push('/login');
@@ -113,37 +125,15 @@ const Login = () => {
             </button>
           </form>
         </div>
-        <div className="register-wrapper mt-5">
+        <div className="register-wrapper mt-5 mb-5">
           <div className="register-container">
             <form onSubmit={handleSubmitRegister} className="register-form">
               <h3>Sign up</h3>
 
               <div className="form-group">
-                <label>First name</label>
-                <input
-                  type="text"
-                  name="firstname"
-                  className="form-control"
-                  placeholder="First name"
-                  value={formRegister.firstname}
-                  onChange={handleChangeRegister}
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Last name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Last name"
-                  name="lastname"
-                  value={formRegister.lastname}
-                  onChange={handleChangeRegister}
-                />
-              </div>
-
-              <div className="form-group">
-                <label>User name</label>
+                <label>
+                  User name <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -151,11 +141,14 @@ const Login = () => {
                   name="username"
                   value={formRegister.username}
                   onChange={handleChangeRegister}
+                  required
                 />
               </div>
 
               <div className="form-group">
-                <label>Password</label>
+                <label>
+                  Password <span className="text-danger">*</span>
+                </label>
                 <input
                   type="password"
                   className="form-control"
@@ -163,7 +156,86 @@ const Login = () => {
                   name="password"
                   value={formRegister.password}
                   onChange={handleChangeRegister}
+                  required
                 />
+              </div>
+
+              <div className="form-group">
+                <label>
+                  Your name <span className="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="fullName"
+                  className="form-control"
+                  placeholder="Enter your name"
+                  value={formRegister.fullName}
+                  onChange={handleChangeRegister}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Date of birth</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  name="dateOfBirth"
+                  value={formRegister.dateOfBirth}
+                  onChange={handleChangeRegister}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Your city</label>
+                <input
+                  type="text"
+                  name="city"
+                  className="form-control"
+                  placeholder="Enter your city"
+                  value={formRegister.city}
+                  onChange={handleChangeRegister}
+                />
+              </div>
+
+              <div className="form-group">
+                <p>Please select your gender:</p>
+                <div className="d-flex align-items-center">
+                  <input
+                    className="mb-2"
+                    type="radio"
+                    name="gender"
+                    onChange={handleChangeRegister}
+                    value="male"
+                    id="male"
+                    checked={formRegister.gender === 'male'}
+                  />
+                  <label for="male" className="ml-2">Male</label>
+                </div>
+                <div className="d-flex align-items-center">
+                  <input
+                    className="mb-2"
+                    type="radio"
+                    name="gender"
+                    onChange={handleChangeRegister}
+                    value="female"
+                    id="female"
+                    checked={formRegister.gender === 'female'}
+                  />
+                  <label for="female" className="ml-2">Female</label>
+                </div>
+                <div className="d-flex align-items-center">
+                  <input
+                    className="mb-2"
+                    type="radio"
+                    name="gender"
+                    onChange={handleChangeRegister}
+                    value="other"
+                    id="other"
+                    checked={formRegister.gender === 'other'}
+                  />
+                  <label for="other" className="ml-2">Other</label>
+                </div>
               </div>
 
               <button type="submit" className="btn btn-dark btn-lg btn-block">

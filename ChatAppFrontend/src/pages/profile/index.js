@@ -1,110 +1,87 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import HeaderBar from '../../components/headerBar';
 import './profile.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPaperPlane} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import { isEmpty } from 'lodash';
+import defaultUser from '../../assets/images/profile/defaultUser.png'
+import { useParams } from 'react-router';
 
 const Profile = () => {
+
+  const [userInfo, setUserInfo] = useState({});
+  const {username} = useParams()
+
+  const userInfoStorage = localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo'))
+  useEffect(() => {
+    axios
+    .get(`http://localhost:5000/api/users/${username || ''}`)
+    .then((res) => {
+      if (!isEmpty(res?.data)) {
+        setUserInfo(res?.data)
+        console.log("🚀 ~ file: index.js ~ line 16 ~ .then ~ res", res)
+      }
+    })
+    .catch((error) => console.log(error));
+  }, [])
+
+
   return (
-    <div class="page-content page-container" id="page-content">
-      <div class="padding">
-        <div class="row container d-flex justify-content-center">
-          <div class="col-xl-6 col-md-12">
-            <div class="card user-card-full">
-              <div class="row m-l-0 m-r-0">
-                <div class="col-sm-4 bg-c-lite-green user-profile">
-                  <div class="card-block text-center text-white">
-                    <div class="m-b-25">
-                      {' '}
-                      <img
-                        src="https://img.icons8.com/bubbles/100/000000/user.png"
-                        class="img-radius"
-                        alt="User-Profile-Image"
-                      />
-                      {' '}
+    <>
+      <HeaderBar />
+      <div class="page-content page-container wrapper" id="page-content">
+        <div class="padding">
+          <div class="row container d-flex justify-content-center">
+            <div class="col-xl-6 col-md-12">
+              <div class="card user-card-full">
+                <div class="row m-l-0 m-r-0">
+                  <div class="col-sm-4 bg-c-lite-green user-profile">
+                    <div class="card-block text-center text-white">
+                      <div class="m-b-25">
+                        {' '}
+                        <img
+                          src={userInfo?.photoUrl || defaultUser}
+                          class="img-radius"
+                          alt="User-Profile-Image"
+                          width={100}
+                        />{' '}
+                      </div>
+                      <h6 class="f-w-600">{userInfo?.knownAs || ''}</h6>
+                      <p>{userInfo?.username || ''}</p>{' '}
+                      <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16" />
                     </div>
-                    <h6 class="f-w-600">Hembo Tingor</h6>
-                    <p>Web Designer</p>
-                    {' '}
-                    <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16" />
                   </div>
-                </div>
-                <div class="col-sm-8">
-                  <div class="card-block">
-                    <h6 class="m-b-20 p-b-5 b-b-default f-w-600">
-                      Information
-                    </h6>
-                    <div class="row">
-                      <div class="col-sm-6">
-                        <p class="m-b-10 f-w-600">Email</p>
-                        <h6 class="text-muted f-w-400">rntng@gmail.com</h6>
+                  <div class="col-sm-8">
+                    <div class="card-block">
+                      <h6 class="m-b-20 p-b-5 b-b-default f-w-600">
+                        Information
+                      </h6>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <p class="m-b-10 f-w-600">Date of Birth</p>
+                          <h6 class="text-muted f-w-400">{new Date(userInfo?.dateOfBirth)?.toLocaleDateString() || ''}</h6>
+                        </div>
+                        <div class="col-sm-6">
+                          <p class="m-b-10 f-w-600">Gender</p>
+                          <h6 class="text-muted f-w-400">{userInfo?.gender}</h6>
+                        </div>
                       </div>
-                      <div class="col-sm-6">
-                        <p class="m-b-10 f-w-600">Phone</p>
-                        <h6 class="text-muted f-w-400">98979989898</h6>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <p class="m-b-10 f-w-600">City</p>
+                          <h6 class="text-muted f-w-400">{userInfo?.city || ''}</h6>
+                        </div>
+                      </div>
+                      <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">
+                        Introduction
+                      </h6>
+                      <div class="row">
+                        <div>
+                          {userInfo?.introduction || ''}
+                        </div>
                       </div>
                     </div>
-                    <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">
-                      Projects
-                    </h6>
-                    <div class="row">
-                      <div class="col-sm-6">
-                        <p class="m-b-10 f-w-600">Recent</p>
-                        <h6 class="text-muted f-w-400">Sam Disuja</h6>
-                      </div>
-                      <div class="col-sm-6">
-                        <p class="m-b-10 f-w-600">Most Viewed</p>
-                        <h6 class="text-muted f-w-400">Dinoter husainm</h6>
-                      </div>
-                    </div>
-                    <ul class="social-link list-unstyled m-t-40 m-b-10">
-                      <li>
-                        <a
-                          href="#!"
-                          data-toggle="tooltip"
-                          data-placement="bottom"
-                          title=""
-                          data-original-title="facebook"
-                          data-abc="true"
-                        >
-                          <i
-                            class="mdi mdi-facebook feather icon-facebook facebook"
-                            aria-hidden="true"
-                          />
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="#!"
-                          data-toggle="tooltip"
-                          data-placement="bottom"
-                          title=""
-                          data-original-title="twitter"
-                          data-abc="true"
-                        >
-                          <i
-                            class="mdi mdi-twitter feather icon-twitter twitter"
-                            aria-hidden="true"
-                          />
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="#!"
-                          data-toggle="tooltip"
-                          data-placement="bottom"
-                          title=""
-                          data-original-title="instagram"
-                          data-abc="true"
-                        >
-                          <i
-                            class="mdi mdi-instagram feather icon-instagram instagram"
-                            aria-hidden="true"
-                          />
-                        </a>
-                      </li>
-                    </ul>
                   </div>
                 </div>
               </div>
@@ -112,7 +89,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
