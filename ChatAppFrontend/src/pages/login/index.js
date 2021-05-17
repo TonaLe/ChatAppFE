@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {isEmpty} from 'lodash';
 import React, {useState} from 'react';
-import {Link, Redirect, useHistory} from 'react-router-dom';
+import { Redirect, useHistory} from 'react-router-dom';
 import './login.css';
 
 const Login = () => {
@@ -33,7 +33,10 @@ const Login = () => {
         }
         history.push('/message');
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        if (error.response?.status === 401) setShow(true)
+        console.log(error?.response)
+      });
 
     event.preventDefault();
   };
@@ -61,6 +64,8 @@ const Login = () => {
     event.preventDefault();
   };
 
+  const [show, setShow] = useState(false);
+
   const handleChangeRegister = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -71,6 +76,7 @@ const Login = () => {
   };
 
   const handleChangeLogin = (event) => {
+    setShow(false)
     const name = event.target.name;
     const value = event.target.value;
     setFormLogin({
@@ -124,6 +130,7 @@ const Login = () => {
               Login
             </button>
           </form>
+          {show && <div className="ml-3 mt-3 text-danger">Username or password incorrect</div>}
         </div>
         <div className="register-wrapper mt-5 mb-5">
           <div className="register-container">
