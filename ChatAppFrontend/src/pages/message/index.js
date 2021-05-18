@@ -6,6 +6,9 @@ import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import ApiGet from "../../Utils/ApiGet";
 import ApiPost from "../../Utils/ApiPost";
 import LeftSideBar from "../../components/leftSideBar";
+import defaultUser from '../../assets/images/profile/defaultUser.png';
+import { useHistory } from "react-router";
+
 const Message = () => {
   console.log("homepage rendered");
   const information = localStorage.getItem("userInfo");
@@ -14,6 +17,7 @@ const Message = () => {
   const [currUser, setCurrUser] = useState(null);
   const [currMessages, setCurrMessages] = useState([]);
   const refInput = useRef();
+  const history = useHistory()
 
   const onGetUserToChat = async (username, photoUrl) => {
     setCurrUser({ username, photoUrl });
@@ -34,6 +38,11 @@ const Message = () => {
   useEffect(() => {
     setUserInfo(JSON.parse(information));
   }, [information]);
+
+  const moveToProfile = () => {
+    currUser?.username && history.push(`/profile/${currUser?.username}`)
+  }
+
   return (
     <div>
       <HeaderBar />
@@ -47,7 +56,7 @@ const Message = () => {
         {currUser !== null ? (
           <div className="content">
             <div className="contact-profile">
-              <img src={currUser.photoUrl} alt="" />
+              <span title='view profile'><img src={currUser.photoUrl || defaultUser} alt="" className='hoverProfile' onClick={moveToProfile}/></span>
               <p>{currUser.username}</p>
               <div className="social-media">
                 <i className="fa fa-facebook" aria-hidden="true"></i>
@@ -75,7 +84,7 @@ const Message = () => {
                     </li>
                   ))
                 ) : (
-                  <div>...Loading</div>
+                  <div className='text-light mt-3'>No message found</div>
                 )}
               </ul>
             </div>

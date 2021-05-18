@@ -130,7 +130,7 @@ h6 {
     background: -webkit-linear-gradient(to right, #f64f59, #c471ed, #12c2e9);
     /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #f64f59, #c471ed, #12c2e9);
-    display: block;
+    display: block !important;
 }
 
 .img-radius {
@@ -157,4 +157,8 @@ h6 {
     height: calc(100vh - 200px);
     padding: 10px;
     margin: 0 -15px;
+}
+
+.showCenter {
+    margin: 0 auto;
 }

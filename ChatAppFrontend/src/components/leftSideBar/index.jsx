@@ -1,5 +1,5 @@
-import React, { memo } from "react";
-import { Link } from "react-router-dom";
+import React, { memo, useState, useCallback, useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
 import Search from "../Search";
 import { Nav } from "react-bootstrap";
 import ContactList from "../ContactList";
@@ -7,6 +7,7 @@ import ApiGet from "../../Utils/ApiGet";
 
 const LeftSideBar = memo(({ userInfo, onGetUserToChat }) => {
   console.log("LeftSideBar rendered");
+  const history = useHistory()
   const [isSearch, setIsSearch] = useState(false);
   const [userList, setUserList] = useState([]);
   const onChangeIsSearch = useCallback(() => {
@@ -47,6 +48,11 @@ const LeftSideBar = memo(({ userInfo, onGetUserToChat }) => {
   useEffect(() => {
     onFetchAllUsers();
   }, [userInfo]);
+
+  const moveToProfile = () => {
+    userInfo?.username && history.push(`/profile/${userInfo?.username}`)
+  }
+
   return (
     <div id="sidepanel">
       <div id="profile">
@@ -61,14 +67,11 @@ const LeftSideBar = memo(({ userInfo, onGetUserToChat }) => {
               }
               className="online"
               alt=""
+              onClick={moveToProfile}
             />
           </Link>
 
           <p>{userInfo !== null ? userInfo.username : "...loading"}</p>
-          <i
-            className="fa fa-chevron-down expand-button"
-            aria-hidden="true"
-          ></i>
         </div>
       </div>
       <div id="search" onClick={onChangeIsSearch}>
@@ -91,17 +94,18 @@ const LeftSideBar = memo(({ userInfo, onGetUserToChat }) => {
         onSelect={handleSelect}
         defaultActiveKey="Inbox"
         justify
+        className='my-2'
       >
-        <Nav.Item>
-          <Nav.Link eventKey="Inbox">Inbox</Nav.Link>
+        <Nav.Item className='mr-3'>
+          <Nav.Link eventKey="Inbox" onClick={() => setIsSearch(false)}>Inbox</Nav.Link>
         </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="Outbox">Outbox</Nav.Link>
+        <Nav.Item className='mr-3'>
+          <Nav.Link eventKey="Outbox" onClick={() => setIsSearch(false)}>Outbox</Nav.Link>
         </Nav.Item>
       </Nav>
       {/* Contacts */}
       <ContactList userList={userList} isSearch={isSearch} onChose={onChose} />
-      <div id="bottom-bar">
+      {/* <div id="bottom-bar">
         <button id="addcontact">
           <i className="fa fa-user-plus fa-fw" aria-hidden="true"></i>{" "}
           <span>Add contact</span>
@@ -110,7 +114,7 @@ const LeftSideBar = memo(({ userInfo, onGetUserToChat }) => {
           <i className="fa fa-cog fa-fw" aria-hidden="true"></i>{" "}
           <span>Settings</span>
         </button>
-      </div>
+      </div> */}
     </div>
   );
 });

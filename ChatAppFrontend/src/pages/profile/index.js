@@ -26,7 +26,7 @@ const Profile = () => {
       })
       .catch((error) => console.log(error));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refetch]);
+  }, [refetch, username]);
 
   const [formProfile, setFormProfile] = useState({});
 
@@ -81,7 +81,7 @@ const Profile = () => {
       <div className="page-content page-container wrapper" id="page-content">
         <div className="padding">
           <div className="row d-flex justify-content-between">
-            <div className="col-md-8">
+            <div className={`col-md-8 ${userInfoStorage?.username !== username ? 'showCenter' : ''}`}>
               <div className="card user-card-full">
                 <form onSubmit={handleSubmitProfile}>
                   <div className="row m-l-0 m-r-0">
@@ -119,7 +119,7 @@ const Profile = () => {
                           <button
                             type="button"
                             onClick={() => setIsEditMode(!isEditMode)}
-                            className="btn btn-primary"
+                            className="btn btn-primary btn-sm"
                           >
                             Edit Profile
                           </button>
@@ -267,13 +267,13 @@ const Profile = () => {
                           <div className="mt-4">
                             <button
                               type="submit"
-                              className="btn btn-primary col-sm-3"
+                              className="btn btn-primary btn-sm"
                             >
                               Update profile
                             </button>
                             <button
                               type="button"
-                              className="btn btn-dark ml-3 col-sm-2"
+                              className="btn btn-dark ml-3 btn-sm"
                               onClick={() => setIsEditMode(false)}
                             >
                               Cancel

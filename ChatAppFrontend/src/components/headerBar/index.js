@@ -4,6 +4,7 @@ import { Redirect, useHistory } from 'react-router';
 import './headerBar.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { Link } from 'react-router-dom';
 
 const HeaderBar = () => {
   const [isLogout, setIsLogOut] = useState(false);
@@ -21,12 +22,10 @@ const HeaderBar = () => {
     <Redirect to="/login" />
   ) : (
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="#home">Chat App</Navbar.Brand>
+      <Link to='/message'><Navbar.Brand>Chat App</Navbar.Brand></Link>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link href="#home">Home</Nav.Link>
-          <Nav.Link href="#link">Room</Nav.Link>
         </Nav>
         <NavDropdown
           title={userInfo?.username || 'User Information'}
