@@ -99,6 +99,7 @@ body {
 @media screen and (max-width: 735px) {
   #frame #sidepanel #profile .wrap img {
     width: 40px;
+    height: 40px;
     margin-left: 4px;
   }
 }
@@ -468,6 +469,7 @@ body {
 }
 #frame #sidepanel #contacts ul li.contact .wrap img {
   width: 40px;
+  height: 40px;
   border-radius: 50%;
   float: left;
   margin-right: 10px;
@@ -587,6 +589,7 @@ body {
 }
 #frame .content .contact-profile img {
   width: 40px;
+  height: 40px;
   border-radius: 50%;
   float: left;
   margin: 9px 12px 0 9px;
@@ -742,7 +745,7 @@ body {
   height: 60px;
 }
 .start-message {
-  background-image: url("../../Assets/ChatBackground2.jpg");
+  background-image: url("../../assets/ChatBackground2.jpg");
   min-height: 100%;
 }
 .start-up {
@@ -752,4 +755,9 @@ body {
   color: #95a5a6;
   font-family: Poppins, "Helvetica Neue", Arial, Helvetica, sans-serif;
   font-size: 50px;
+}
+
+.hoverProfile {
+  cursor: pointer;
+  border: 1px solid #37c3ee;
 }

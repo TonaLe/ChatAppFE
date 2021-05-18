@@ -92,7 +92,7 @@ const Login = () => {
       <div className="left">
         <div>
           <h3>Connect</h3>
-          <p>Description connect</p>
+          <p>Connecting and sharing anything you want for everybody</p>
         </div>
         <div>
           <h3>Chat</h3>

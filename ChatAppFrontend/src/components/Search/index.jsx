@@ -1,10 +1,12 @@
-import React, { memo, useEffect, useState } from "react";
-import ApiGet from "../../Utils/ApiGet";
-import "../../pages/message/message.css";
+import React, {memo, useEffect, useState} from 'react';
+import ApiGet from '../../Utils/ApiGet';
+import '../../pages/message/message.css';
+import defaultUser from '../../assets/images/profile/defaultUser.png';
+
 const Search = ({onChose}) => {
   const [users, setUsers] = useState([]);
   const onFetchAllUsers = async () => {
-    let userList = await ApiGet("users");
+    let userList = await ApiGet('users');
     setUsers(userList);
   };
   useEffect(() => {
@@ -14,29 +16,31 @@ const Search = ({onChose}) => {
     <div id="contacts">
       <ul
         style={{
-          marginTop: "1rem",
-          minHeight: "100%",
-          listStyleType: "none",
+          marginTop: '1rem',
+          minHeight: '100%',
+          listStyleType: 'none',
           padding: 0,
         }}
       >
-        {users.map((user) => (
-          <li className="contact" key={user.id}>
-            <div className="wrap">
-              <span className="contact-status online"></span>
-              <img
-                src={user.photoUrl}
-                alt=""
-                onClick={() =>
-                  onChose(user.username, user.photoUrl)
-                }
-              />
-              <div className="meta">
-                <p className="name">{user.username}</p>
-              </div>
-            </div>
-          </li>
-        ))}
+        {users.map((user) => {
+          console.log("🚀 ~ file: index.jsx ~ line 26 ~ {users.map ~ user", user?.photoUrl)
+          return (
+            !(user.username).includes('admin') && (
+              <li
+                className="contact"
+                key={user.id}
+                onClick={() => onChose(user.username, user.photoUrl)}
+              >
+                <div className="wrap">
+                  <img src={user.photoUrl || defaultUser} alt="" />
+                  <div className="meta">
+                    <p className="name">{user.username}</p>
+                  </div>
+                </div>
+              </li>
+            )
+          );
+        })}
       </ul>
     </div>
   ) : (
@@ -44,4 +48,3 @@ const Search = ({onChose}) => {
   );
 };
 export default Search;
-
