@@ -81,7 +81,7 @@ const Profile = () => {
       <div className="page-content page-container wrapper" id="page-content">
         <div className="padding">
           <div className="row d-flex justify-content-between">
-            <div className={`col-md-8 ${userInfoStorage?.username !== username ? 'showCenter' : ''}`}>
+            <div className={`col-md-8 showCenter`}>
               <div className="card user-card-full">
                 <form onSubmit={handleSubmitProfile}>
                   <div className="row m-l-0 m-r-0">
@@ -125,7 +125,7 @@ const Profile = () => {
                           </button>
                         ) : (
                           <>
-                            <Button variant="primary" onClick={handleShow}>
+                            {/* <Button variant="primary" onClick={handleShow}>
                               Add friend
                             </Button>
 
@@ -151,7 +151,7 @@ const Profile = () => {
                                   Cancel
                                 </Button>
                               </Modal.Footer>
-                            </Modal>
+                            </Modal> */}
                           </>
                         )}
                       </div>
@@ -286,7 +286,7 @@ const Profile = () => {
                 </form>
               </div>
             </div>
-            {userInfoStorage?.username === username && (
+            {/* {userInfoStorage?.username === username && (
               <div className="col-md-3 friendRequest">
                 <h5 className="mt-3 mb-4 text-center">List friend request</h5>
                 <div className="friendWrapper">
@@ -408,7 +408,7 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>
