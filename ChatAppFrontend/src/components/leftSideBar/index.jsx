@@ -4,6 +4,7 @@ import Search from "../Search";
 import { Nav } from "react-bootstrap";
 import ContactList from "../ContactList";
 import ApiGet from "../../Utils/ApiGet";
+import defaultUser from '../../assets/images/profile/defaultUser.png';
 
 const LeftSideBar = memo(({ userInfo, onGetUserToChat }) => {
   console.log("LeftSideBar rendered");
@@ -61,9 +62,7 @@ const LeftSideBar = memo(({ userInfo, onGetUserToChat }) => {
             <img
               id="profile-img"
               src={
-                userInfo !== null
-                  ? userInfo.photoUrl
-                  : "http://emilcarlsson.se/assets/mikeross.png"
+                userInfo?.photoUrl || defaultUser
               }
               className="online"
               alt=""
