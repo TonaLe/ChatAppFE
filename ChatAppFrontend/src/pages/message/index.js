@@ -79,7 +79,7 @@ const Message = () => {
                       }
                       key={m.id}
                     >
-                      <img src={m.senderPhotoUrl} alt="" />
+                      <img src={m.senderPhotoUrl || defaultUser} alt="" width={30}/>
                       <p>{m.content}</p>
                     </li>
                   ))
